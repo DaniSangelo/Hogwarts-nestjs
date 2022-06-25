@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { WandService } from './wand.service';
 import { CreateWandDto } from './dto/create-wand.dto';
 import { UpdateWandDto } from './dto/update-wand.dto';
@@ -6,6 +14,11 @@ import { UpdateWandDto } from './dto/update-wand.dto';
 @Controller('wand')
 export class WandController {
   constructor(private readonly wandService: WandService) {}
+
+  @Post('/initial-input')
+  create(@Body() createWandDto: CreateWandDto) {
+    return this.wandService.create(createWandDto);
+  }
 
   @Get()
   findAll() {

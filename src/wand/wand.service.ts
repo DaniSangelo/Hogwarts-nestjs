@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateWandDto } from './dto/create-wand.dto';
@@ -11,6 +11,11 @@ export class WandService {
     @InjectRepository(Wand)
     private readonly wandRepository: Repository<Wand>,
   ) {}
+
+  create(createWandDto: CreateWandDto){
+    const wand = this.wandRepository.create(createWandDto);
+    return this.wandRepository.save(wand);
+  }
 
   findAll() {
     return this.wandRepository.find();
