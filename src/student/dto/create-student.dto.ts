@@ -3,4 +3,5 @@ export class CreateStudentDto {
   lastname: string;
   birthdate: Date;
   patronus: string;
+  houseId: number;
 }

@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { House } from 'src/house/entities/house.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Student {
@@ -16,4 +23,11 @@ export class Student {
 
   @Column({ nullable: true })
   patronus: string;
+
+  @Column({ name: 'houseId', nullable: true })
+  houseid: number;
+
+  @ManyToOne(() => House, (house) => house.students)
+  @JoinColumn()
+  house: House;
 }
