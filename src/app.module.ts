@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { readdirSync } from 'fs';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { HouseModule } from './house/house.module';
@@ -17,6 +18,14 @@ import { WandModule } from './wand/wand.module';
       database: 'dbhogwarts',
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
+      logging: true,
+      cache: {
+        type: 'redis',
+        options: {
+          host: 'localhost',
+          port: 6379,
+        }
+      }
     }),
     HouseModule,
     StudentModule,

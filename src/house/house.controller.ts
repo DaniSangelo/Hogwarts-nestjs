@@ -12,6 +12,11 @@ export class HouseController {
     return this.houseService.create(createHouseDto);
   }
 
+  @Get('/students')
+  findAllStudentsOfHouse() {
+    return this.houseService.findAllStudentsOfHouse();
+  }
+
   @Get()
   findAll() {
     return this.houseService.findAll();

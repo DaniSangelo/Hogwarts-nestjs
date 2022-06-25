@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import internal from 'stream';
+import { EntityManager, Repository } from 'typeorm';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { Student } from './entities/student.entity';
@@ -10,6 +11,7 @@ export class StudentService {
   constructor(
     @InjectRepository(Student)
     private readonly studentRepository: Repository<Student>,
+    private manager: EntityManager,
   ) {}
 
   create(createStudentDto: CreateStudentDto) {
@@ -21,8 +23,15 @@ export class StudentService {
     return this.studentRepository.find();
   }
 
-  findOne(id: number) {
-    return this.studentRepository.findOne({ where: { id: id } });
+  async findOne(id: number) {
+    const result = await this.studentRepository.findOne({
+      where: { id },
+      relations: ['wand', 'house'],
+    });
+
+    const { wandid, houseid, ...student } = result;
+
+    return student;
   }
 
   async update(id: number, updateStudentDto: UpdateStudentDto) {
@@ -42,5 +51,13 @@ export class StudentService {
     if (!student) throw new NotFoundException('Student not found');
 
     return this.studentRepository.remove(student);
+  }
+
+  async listStudents(idStart: number, idEnd: number) {
+    const students = await this.manager.query('CALL list_students(?, ?)', [
+      idStart,
+      idEnd,
+    ]);
+    return students[0];
   }
 }
