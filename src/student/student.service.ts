@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SubjectService } from 'src/subject/subject.service';
+import { WandService } from 'src/wand/wand.service';
 import { EntityManager, Repository } from 'typeorm';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
@@ -13,6 +14,7 @@ export class StudentService {
     private readonly studentRepository: Repository<Student>,
     private manager: EntityManager,
     private readonly subjectService: SubjectService,
+    private readonly wandService: WandService,
   ) {}
 
   async create(createStudentDto: CreateStudentDto) {
@@ -24,12 +26,18 @@ export class StudentService {
         ),
       ));
 
-    const student = this.studentRepository.create({
+    let student = this.studentRepository.create({
       ...createStudentDto,
       subjects,
     });
 
-    return this.studentRepository.save(student);
+    student = await this.studentRepository.save(student);
+    if (student.id && createStudentDto?.wand){
+      let wand = { ...createStudentDto?.wand }
+      wand.studentid = student.id;
+      wand = await this.wandService.create(wand);
+    }
+    return student;
   }
 
   findAll() {
@@ -39,10 +47,10 @@ export class StudentService {
   async findOne(id: number) {
     const result = await this.studentRepository.findOne({
       where: { id },
-      relations: ['wand', 'house'],
+      relations: ['house'],
     });
 
-    const { wandid, houseid, ...student } = result;
+    const { houseid, ...student } = result;
 
     return student;
   }

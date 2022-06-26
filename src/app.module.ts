@@ -19,7 +19,7 @@ import { SubjectModule } from './subject/subject.module';
       database: 'dbhogwarts',
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
-      logging: true,
+      logging: false,
       cache: {
         type: 'redis',
         options: {

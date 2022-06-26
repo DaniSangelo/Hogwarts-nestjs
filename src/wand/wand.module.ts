@@ -8,5 +8,6 @@ import { Wand } from './entities/wand.entity';
   imports: [TypeOrmModule.forFeature([Wand])],
   controllers: [WandController],
   providers: [WandService],
+  exports: [WandService],
 })
 export class WandModule {}

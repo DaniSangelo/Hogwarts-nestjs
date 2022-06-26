@@ -32,16 +32,9 @@ export class Student {
   @Column({ name: 'houseId', nullable: true })
   houseid: number;
 
-  @Column({ name: 'wandId', nullable: true })
-  wandid: number;
-
   @ManyToOne(() => House, (house) => house.students)
   @JoinColumn()
   house: House;
-
-  @OneToOne(() => Wand, (wand) => wand.id, { cascade: false, nullable: true })
-  @JoinColumn()
-  wand: Wand;
 
   @ManyToMany(() => Subject, (subject) => subject.students)
   @JoinTable()

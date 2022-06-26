@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Student } from 'src/student/entities/student.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Wand {
@@ -16,4 +23,14 @@ export class Wand {
 
   @Column()
   flexibility: string;
+
+  @Column({ name: 'studentId', nullable: true })
+  studentid: number;
+
+  @OneToOne(() => Student, (student) => student.id, {
+    onDelete: 'CASCADE',
+    nullable: true,
+  })
+  @JoinColumn()
+  student: Student;
 }
