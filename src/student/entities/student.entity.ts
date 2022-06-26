@@ -1,9 +1,12 @@
 import { House } from 'src/house/entities/house.entity';
+import { Subject } from 'src/subject/entities/subject.entity';
 import { Wand } from 'src/wand/entities/wand.entity';
 import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -36,7 +39,11 @@ export class Student {
   @JoinColumn()
   house: House;
 
-  @OneToOne(() => Wand, (wand) => wand.id, { cascade: true, nullable: true })
+  @OneToOne(() => Wand, (wand) => wand.id, { cascade: false, nullable: true })
   @JoinColumn()
   wand: Wand;
+
+  @ManyToMany(() => Subject, (subject) => subject.students)
+  @JoinTable()
+  subjects: Subject[];
 }

@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { HouseModule } from './house/house.module';
 import { StudentModule } from './student/student.module';
 import { WandModule } from './wand/wand.module';
+import { SubjectModule } from './subject/subject.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { WandModule } from './wand/wand.module';
     HouseModule,
     StudentModule,
     WandModule,
+    SubjectModule,
   ],
   controllers: [AppController],
   providers: [AppService],

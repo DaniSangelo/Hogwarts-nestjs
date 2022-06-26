@@ -1,3 +1,4 @@
+import { Subject } from 'src/subject/entities/subject.entity';
 import { Wand } from 'src/wand/entities/wand.entity';
 
 export class CreateStudentDto {
@@ -7,4 +8,5 @@ export class CreateStudentDto {
   patronus: string;
   houseId: number;
   wand?: Wand;
+  subjects?: Subject[];
 }
