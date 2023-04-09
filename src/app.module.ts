@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { readdirSync } from 'fs';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { HouseModule } from './house/house.module';
 import { StudentModule } from './student/student.module';
 import { WandModule } from './wand/wand.module';
@@ -16,7 +14,7 @@ import { SubjectModule } from './subject/subject.module';
       port: 3306,
       username: 'root',
       password: 'daniel',
-      database: 'dbhogwarts',
+      database: 'hogwarts',
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
       logging: false,
@@ -33,7 +31,7 @@ import { SubjectModule } from './subject/subject.module';
     WandModule,
     SubjectModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
